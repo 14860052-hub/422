@@ -1,0 +1,28 @@
+import requests
+
+# === ① 抓股價 ===
+stock_url = "https://query1.finance.yahoo.com/v8/finance/chart/2303.TW"
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
+
+res = requests.get(stock_url, headers=headers)
+data = res.json()
+
+price = data['chart']['result'][0]['meta']['regularMarketPrice']
+
+# === ② 發送 Telegram ===
+TOKEN = "8782526661:AAG_X5douezw-xmSoVOQUOSxq_8TdagAJaY"
+CHAT_ID = "8690767707"
+
+message = f"聯電目前股價：{price}"
+
+telegram_url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+payload = {
+    "chat_id": CHAT_ID,
+    "text": message
+}
+
+requests.post(telegram_url, data=payload)
+
+print("已發送:", message)

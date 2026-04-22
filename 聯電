@@ -1,4 +1,5 @@
 import requests
+import os
 
 # === ① 抓股價 ===
 stock_url = "https://query1.finance.yahoo.com/v8/finance/chart/2303.TW"
@@ -11,9 +12,9 @@ data = res.json()
 
 price = data['chart']['result'][0]['meta']['regularMarketPrice']
 
-# === ② 發送 Telegram ===
-TOKEN = "8782526661:AAG_X5douezw-xmSoVOQUOSxq_8TdagAJaY"
-CHAT_ID = "8690767707"
+# === ② 從環境變數讀取 ===
+TOKEN = os.getenv("TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
 message = f"聯電目前股價：{price}"
 
